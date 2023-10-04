@@ -2,6 +2,8 @@ package com.ozgurokanozdal.paticars.services;
 
 import com.ozgurokanozdal.paticars.entities.User;
 import com.ozgurokanozdal.paticars.repositories.UserRepository;
+import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
+import com.ozgurokanozdal.paticars.requests.UserUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,20 +23,25 @@ public class UserService {
          return userRepository.findAll();
     }
 
-    public User saveNewUser(User newUser) {
-         return userRepository.save(newUser);
+    public User saveNewUser(UserCreateRequest userCreate) {
+         User user = new User();
+         user.setName(userCreate.getName());
+         user.setSurname(userCreate.getSurname());
+         user.setUsername(userCreate.getUsername());
+         user.setPassword(userCreate.getPassword());
+         user.setEmail(userCreate.getEmail());
+         return userRepository.save(user);
     }
 
     public User getUserById(Long userId) {
          return userRepository.findById(userId).orElse(null);
     }
 
-    public User updateUserById(Long userId, User newUser) {
+    public User updateUserById(Long userId, UserUpdateRequest userUpdate) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()){
             User oldUser = user.get();
-            oldUser.setName(newUser.getName());
-            oldUser.setPassword(newUser.getPassword());
+            oldUser.setPassword(userUpdate.getPassword());
             userRepository.save(oldUser);
             return oldUser;
         }else{

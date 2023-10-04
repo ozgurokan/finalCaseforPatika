@@ -1,6 +1,8 @@
 package com.ozgurokanozdal.paticars.controllers;
 
 import com.ozgurokanozdal.paticars.entities.User;
+import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
+import com.ozgurokanozdal.paticars.requests.UserUpdateRequest;
 import com.ozgurokanozdal.paticars.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,8 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User newUser){
-        return userService.saveNewUser(newUser);
+    public User createUser(@RequestBody UserCreateRequest userCreate){
+        return userService.saveNewUser(userCreate);
     }
 
     @GetMapping("/{userId}")
@@ -34,8 +36,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser){
-        return userService.updateUserById(userId,newUser);
+    public User updateOneUser(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdate){
+        return userService.updateUserById(userId,userUpdate);
     }
 
     @DeleteMapping("/{userId}")
