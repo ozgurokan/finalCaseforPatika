@@ -1,36 +1,26 @@
-package com.ozgurokanozdal.paticars.entities;
+package com.ozgurokanozdal.paticars.responses;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Date;
+import com.ozgurokanozdal.paticars.entities.Car;
 
-@Entity
-@Table(name = "car")
-public class Car {
+public class CarResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     Long id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    User user;
-
-    @Column
+    Long user_id;
     String model;
-
-    @Column
     String brand;
-
-    @Column(unique = true)
     String car_plate;
-
-    @Column
     String year;
+
+    public CarResponse(Car entity){
+        this.id = entity.getId();
+        this.user_id = entity.getUser().getId();
+        this.model = entity.getModel();
+        this.brand = entity.getBrand();
+        this.year = entity.getYear();
+    }
+
 
     public Long getId() {
         return id;
@@ -40,12 +30,12 @@ public class Car {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getModel() {

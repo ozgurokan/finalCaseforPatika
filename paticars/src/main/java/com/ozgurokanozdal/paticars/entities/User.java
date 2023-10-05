@@ -17,13 +17,13 @@ public class User {
     @Column
     String surname;
 
-    @Column
+    @Column(unique = true)
     String username;
 
     @Column
     String password;
 
-    @Column
+    @Column(unique = true)
     String email;
 
     public Long getId() {
