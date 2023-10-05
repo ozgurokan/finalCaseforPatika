@@ -40,7 +40,7 @@ public class CarService {
             toSave.setBrand(newCarRequest.getBrand());
             toSave.setCar_plate(newCarRequest.getCar_plate());
             toSave.setYear(newCarRequest.getYear());
-            toSave.setUser(user);
+            toSave.setUserId(newCarRequest.getUser_id());
             return carRepository.save(toSave);
         }
 

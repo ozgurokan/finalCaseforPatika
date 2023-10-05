@@ -15,13 +15,8 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
-    // lazy yaptığın için her car nesnesi çekildiğinde ekstra user çekmeyecek
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    User user;
+    @Column(name = "user_id")
+    Long userId;
 
     @Column
     String model;
@@ -43,12 +38,12 @@ public class Car {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getModel() {
