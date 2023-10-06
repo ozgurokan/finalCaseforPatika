@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car,Long> {
 
-    List<Car> findByUserId(Long user_id);
+    List<Car> findAllByUserId(Long user_id);
 }

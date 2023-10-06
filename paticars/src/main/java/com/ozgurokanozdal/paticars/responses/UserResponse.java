@@ -3,17 +3,28 @@ package com.ozgurokanozdal.paticars.responses;
 
 import com.ozgurokanozdal.paticars.entities.User;
 
+import java.util.Optional;
+
 public class UserResponse {
 
     Long id;
     String name;
     String surname;
+    String username;
+    String password;
+    String email;
 
-    public UserResponse(User entitiy){
-        this.id = entitiy.getId();
-        this.name = entitiy.getName();
-        this.surname = entitiy.getSurname();
+
+    public UserResponse(User entity){
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.surname = entity.getSurname();
+        this.username = entity.getUsername();
     }
+
+    public UserResponse(){
+
+    };
 
 
 
@@ -40,6 +51,14 @@ public class UserResponse {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

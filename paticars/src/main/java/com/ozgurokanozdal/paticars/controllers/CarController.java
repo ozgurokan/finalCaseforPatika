@@ -3,6 +3,7 @@ package com.ozgurokanozdal.paticars.controllers;
 import com.ozgurokanozdal.paticars.entities.Car;
 import com.ozgurokanozdal.paticars.requests.CarCreateRequest;
 import com.ozgurokanozdal.paticars.requests.CarUpdateRequest;
+import com.ozgurokanozdal.paticars.responses.CarResponse;
 import com.ozgurokanozdal.paticars.services.CarService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +21,22 @@ public class CarController {
     }
 
     @GetMapping
-    public List<Car> getAllCars(@RequestParam Optional<Long> userId){
+    public List<CarResponse> getAllCars(@RequestParam Optional<Long> userId){
         return carService.getAllCars(userId);
     }
 
     @PostMapping
-    public Car saveNewCar(@RequestBody CarCreateRequest newCarRequest){
+    public CarResponse saveNewCar(@RequestBody CarCreateRequest newCarRequest){
         return carService.saveNewCar(newCarRequest);
     }
 
     @GetMapping("/{carId}")
-    public Car getOneCar(@PathVariable Long carId){
+    public CarResponse getOneCar(@PathVariable Long carId){
         return carService.getCarById(carId);
     }
 
     @PutMapping("/{carId}")
-    public Car updateOneCar(@PathVariable Long carId, @RequestBody CarUpdateRequest carUpdate){
+    public CarResponse updateOneCar(@PathVariable Long carId, @RequestBody CarUpdateRequest carUpdate){
         return carService.updateCarById(carId,carUpdate);
     }
 

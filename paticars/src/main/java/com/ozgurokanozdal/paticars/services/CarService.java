@@ -5,9 +5,11 @@ import com.ozgurokanozdal.paticars.entities.User;
 import com.ozgurokanozdal.paticars.repositories.CarRepository;
 import com.ozgurokanozdal.paticars.requests.CarCreateRequest;
 import com.ozgurokanozdal.paticars.requests.CarUpdateRequest;
+import com.ozgurokanozdal.paticars.responses.CarResponse;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,46 +24,66 @@ public class CarService {
         this.userService = userService;
     }
 
-    public List<Car> getAllCars(Optional<Long> userId){
+    public List<CarResponse> getAllCars(Optional<Long> userId){
+
         if(userId.isPresent()){
-            return carRepository.findByUserId(userId.get());
+            List<Car> cars  = carRepository.findAllByUserId(userId.get());
+            List<CarResponse> carResponses = new ArrayList<>();
+
+            for (Car car: cars) {
+                carResponses.add(new CarResponse(car));
+            }
+
+
+            return carResponses;
+        }else{
+            List<Car> cars  = carRepository.findAll();
+            List<CarResponse> carResponses = new ArrayList<>();
+
+            for (Car car: cars) {
+                carResponses.add(new CarResponse(car));
+            }
+            return carResponses;
         }
-        return carRepository.findAll();
+
 
     }
 
-    public Car saveNewCar(CarCreateRequest newCarRequest){
+    public CarResponse saveNewCar(CarCreateRequest newCarRequest){
         User user = userService.getUserById(newCarRequest.getUser_id());
         if(user == null){
             return null;
         }else{
-            Car toSave = new Car();
-            toSave.setModel(newCarRequest.getModel());
-            toSave.setBrand(newCarRequest.getBrand());
-            toSave.setCar_plate(newCarRequest.getCar_plate());
-            toSave.setYear(newCarRequest.getYear());
-            toSave.setUser(user);
-            return carRepository.save(toSave);
+            Car carToSave = new Car();
+            carToSave.setModel(newCarRequest.getModel());
+            carToSave.setBrand(newCarRequest.getBrand());
+            carToSave.setCar_plate(newCarRequest.getCar_plate());
+            carToSave.setYear(newCarRequest.getYear());
+            carToSave.setUser(user);
+            carRepository.save(carToSave);
+            return new CarResponse(carToSave);
         }
 
     }
 
-    public Car getCarById(Long carId) {
-        // add custom exception
-        return carRepository.findById(carId).orElse(null);
+    public CarResponse getCarById(Long carId) {
+        Car car = carRepository.findById(carId).orElse(null);
+        CarResponse carResponse = new CarResponse(car);
+        return carResponse;
     }
 
-    public Car updateCarById(Long carId, CarUpdateRequest carUpdate) {
+    public CarResponse updateCarById(Long carId, CarUpdateRequest carUpdate) {
        Optional<Car> car = carRepository.findById(carId);
        if(car.isPresent()){
-           Car toUpdate = car.get();
-           toUpdate.setModel(carUpdate.getModel());
-           toUpdate.setBrand(carUpdate.getBrand());
+           Car CarToUpdate = car.get();
+           CarToUpdate.setModel(carUpdate.getModel());
+           CarToUpdate.setBrand(carUpdate.getBrand());
            // DB'de plaka benzersiz olduğu için zaten var olan başka bir plaka ile değiştiremez...error mesajını yaz
-           toUpdate.setCar_plate(carUpdate.getCar_plate());
-           toUpdate.setYear(carUpdate.getYear());
-           carRepository.save(toUpdate);
-           return toUpdate;
+           CarToUpdate.setCar_plate(carUpdate.getCar_plate());
+           CarToUpdate.setYear(carUpdate.getYear());
+           carRepository.save(CarToUpdate);
+           CarResponse carResponse = new CarResponse(CarToUpdate);
+           return carResponse;
        }else{
            return null;
        }
