@@ -1,11 +1,9 @@
 package com.ozgurokanozdal.paticars.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Date;
 
 @Entity
 @Table(name = "car")

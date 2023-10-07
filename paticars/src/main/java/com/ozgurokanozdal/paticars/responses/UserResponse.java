@@ -3,7 +3,6 @@ package com.ozgurokanozdal.paticars.responses;
 
 import com.ozgurokanozdal.paticars.entities.User;
 
-import java.util.Optional;
 
 public class UserResponse {
 

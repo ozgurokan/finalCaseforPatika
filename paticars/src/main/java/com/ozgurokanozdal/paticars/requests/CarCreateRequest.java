@@ -1,6 +1,5 @@
 package com.ozgurokanozdal.paticars.requests;
 
-import java.util.Date;
 
 public class CarCreateRequest {
 

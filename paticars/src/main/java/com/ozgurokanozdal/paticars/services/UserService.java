@@ -8,7 +8,6 @@ import com.ozgurokanozdal.paticars.responses.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,15 +46,15 @@ public class UserService {
          // bu method user controllerda kullanılacak
          Optional<User> user = userRepository.findById(userId);
          if(user.isPresent()){
-             User entity = user.get();
-             UserResponse userResponse = new UserResponse();
+//             User entity = user.get();
+//             UserResponse userResponse = new UserResponse();
+//
+//             userResponse.setId(entity.getId());
+//             userResponse.setName(entity.getName());
+//             userResponse.setSurname(entity.getSurname());
+//             userResponse.setUsername(entity.getUsername());
 
-             userResponse.setId(entity.getId());
-             userResponse.setName(entity.getName());
-             userResponse.setSurname(entity.getSurname());
-             userResponse.setUsername(entity.getUsername());
-
-             return userResponse;
+             return modelMapper.map(user,UserResponse.class);
          }else{
              // şimdilik
              return null;
@@ -64,7 +63,7 @@ public class UserService {
     }
 
     public User getUserById(Long userId) {
-         // bu method car service de kullanılacak
+         // bu method car service de kullanılacak o yüzden DTO kullanmadım
          return userRepository.findById(userId).orElse(null);
     }
 
@@ -74,8 +73,8 @@ public class UserService {
             User oldUser = user.get();
             oldUser.setPassword(userUpdate.getPassword());
             userRepository.save(oldUser);
-            UserResponse userResponse = new UserResponse(oldUser);
-            return userResponse;
+;
+            return modelMapper.map(oldUser,UserResponse.class);
         }else{
             //add custom exception
             return null;
