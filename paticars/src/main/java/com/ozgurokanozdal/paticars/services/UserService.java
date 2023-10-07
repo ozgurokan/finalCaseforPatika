@@ -5,6 +5,7 @@ import com.ozgurokanozdal.paticars.repositories.UserRepository;
 import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
 import com.ozgurokanozdal.paticars.requests.UserUpdateRequest;
 import com.ozgurokanozdal.paticars.responses.UserResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,38 +13,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UserService {
 
      private UserRepository userRepository;
+     private final ModelMapper modelMapper;
 
-     public UserService(UserRepository userRepository){
+     public UserService(UserRepository userRepository,ModelMapper modelMapper){
          this.userRepository = userRepository;
+         this.modelMapper = modelMapper;
      }
 
 
     public List<UserResponse> getAllUsers() {
          List<User> users =  userRepository.findAll();
-         List<UserResponse> userResponses = new ArrayList<>();
-
-         //saçmalamış olabilirim kontrol et ama şu an uykum var
-         for(User u : users){
-             userResponses.add(new UserResponse(u));
-         }
+         List<UserResponse> userResponses = users.stream().map(user -> modelMapper.map(user,UserResponse.class)).collect(Collectors.toList());
          return userResponses;
     }
 
     public UserResponse saveNewUser(UserCreateRequest userCreate) {
-         User user = new User();
-         user.setName(userCreate.getName());
-         user.setSurname(userCreate.getSurname());
-         user.setUsername(userCreate.getUsername());
-         user.setPassword(userCreate.getPassword());
-         user.setEmail(userCreate.getEmail());
+         User user = modelMapper.map(userCreate,User.class);
+//         user.setName(userCreate.getName());
+//         user.setSurname(userCreate.getSurname());
+//         user.setUsername(userCreate.getUsername());
+//         user.setPassword(userCreate.getPassword());
+//         user.setEmail(userCreate.getEmail());
          userRepository.save(user);
-
-         UserResponse userResponse = new UserResponse(user);
-         return userResponse;
+         return modelMapper.map(user,UserResponse.class);
     }
 
     public UserResponse getUserByIdWithResponse(Long userId) {

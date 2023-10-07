@@ -5,6 +5,8 @@ import com.ozgurokanozdal.paticars.entities.Car;
 
 public class CarResponse {
 
+//id kaldır plakaya göre işlem yap
+    // id ön yüzde gereksiz şu anlık --> information leakage
 
     Long id;
     Long user_id;
@@ -18,8 +20,11 @@ public class CarResponse {
         this.user_id = entity.getUser().getId();
         this.model = entity.getModel();
         this.brand = entity.getBrand();
+        this.car_plate = entity.getCar_plate();
         this.year = entity.getYear();
     }
+
+    public CarResponse(){};
 
 
     public Long getId() {

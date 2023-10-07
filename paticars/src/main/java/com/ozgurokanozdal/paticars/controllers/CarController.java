@@ -27,6 +27,7 @@ public class CarController {
 
     @PostMapping
     public CarResponse saveNewCar(@RequestBody CarCreateRequest newCarRequest){
+
         return carService.saveNewCar(newCarRequest);
     }
 

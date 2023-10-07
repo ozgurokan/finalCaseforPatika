@@ -22,9 +22,7 @@ public class UserResponse {
         this.username = entity.getUsername();
     }
 
-    public UserResponse(){
-
-    };
+    public UserResponse(){};
 
 
 
