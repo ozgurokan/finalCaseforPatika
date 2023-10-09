@@ -8,12 +8,12 @@ public class CarResponse {
 //id kaldır plakaya göre işlem yap
     // id ön yüzde gereksiz şu anlık --> information leakage
 
-    Long id;
-    Long user_id;
-    String model;
-    String brand;
-    String car_plate;
-    String year;
+    private Long id;
+    private Long user_id;
+    private String model;
+    private String brand;
+    private String car_plate;
+    private String year;
 
     public CarResponse(Car entity){
         this.id = entity.getId();

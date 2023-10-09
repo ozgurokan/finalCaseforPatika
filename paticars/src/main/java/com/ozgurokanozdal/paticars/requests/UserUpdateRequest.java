@@ -2,7 +2,7 @@ package com.ozgurokanozdal.paticars.requests;
 
 public class UserUpdateRequest {
 
-    String password;
+    private String password;
 
     public String getPassword() {
         return password;

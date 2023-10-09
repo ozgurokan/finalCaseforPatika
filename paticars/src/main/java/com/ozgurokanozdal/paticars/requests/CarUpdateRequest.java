@@ -2,10 +2,10 @@ package com.ozgurokanozdal.paticars.requests;
 
 public class CarUpdateRequest {
 
-    String model;
-    String brand;
-    String car_plate;
-    String year;
+    private String model;
+    private String brand;
+    private String car_plate;
+    private String year;
 
 
     public String getModel() {

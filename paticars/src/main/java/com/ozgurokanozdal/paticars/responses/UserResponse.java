@@ -6,12 +6,12 @@ import com.ozgurokanozdal.paticars.entities.User;
 
 public class UserResponse {
 
-    Long id;
-    String name;
-    String surname;
-    String username;
-    String password;
-    String email;
+    private Long id;
+    private String name;
+    private String surname;
+    private String username;
+    private String password;
+    private String email;
 
 
     public UserResponse(User entity){

@@ -11,24 +11,24 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id", nullable=false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    User user;
+    private User user;
 
     @Column
-    String model;
+    private String model;
 
     @Column
-    String brand;
+    private String brand;
 
     @Column(unique = true)
-    String car_plate;
+    private String car_plate;
 
     @Column
-    String year;
+    private String year;
 
     public Long getId() {
         return id;

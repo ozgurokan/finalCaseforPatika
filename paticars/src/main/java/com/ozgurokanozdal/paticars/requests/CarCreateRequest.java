@@ -4,11 +4,11 @@ package com.ozgurokanozdal.paticars.requests;
 public class CarCreateRequest {
 
 
-    Long user_id;
-    String model;
-    String brand;
-    String year;
-    String car_plate;
+    private Long user_id;
+    private String model;
+    private String brand;
+    private String year;
+    private String car_plate;
 
 
 
