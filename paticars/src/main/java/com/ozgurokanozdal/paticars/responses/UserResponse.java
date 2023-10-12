@@ -10,8 +10,7 @@ public class UserResponse {
     private String name;
     private String surname;
     private String username;
-    private String password;
-    private String email;
+
 
 
     public UserResponse(User entity){

@@ -11,5 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserJwtResponse {
 
-    private String token;
+    private String message;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
+
 }

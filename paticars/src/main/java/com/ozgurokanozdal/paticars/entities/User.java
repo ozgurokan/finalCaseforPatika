@@ -26,16 +26,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String surname;
 
     @Column(unique = true)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true)

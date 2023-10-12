@@ -1,6 +1,6 @@
 package com.ozgurokanozdal.paticars.services;
 
-import com.ozgurokanozdal.paticars.entities.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,6 +20,9 @@ public class JwtService {
 
     @Value("${paticars.app.secret}")
     private  String SECRET_KEY;
+
+    @Value("${access.token.expires.in}")
+    private Long accessExpires;
 
     public String findUsername(String token) {
         return exportToken(token, Claims::getSubject);
@@ -50,11 +53,9 @@ public class JwtService {
                 .setClaims(new HashMap<>())
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * 60 * 24)))
+                .setExpiration(new Date(System.currentTimeMillis()+ (1000 * accessExpires)))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
-
-
 
     }
 }

@@ -5,6 +5,7 @@ import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
 import com.ozgurokanozdal.paticars.requests.UserUpdateRequest;
 import com.ozgurokanozdal.paticars.responses.UserResponse;
 import com.ozgurokanozdal.paticars.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,23 +23,23 @@ public class UserController {
     };
 
     @GetMapping
-    public List<UserResponse> getAllUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping
-    public UserResponse createUser(@RequestBody UserCreateRequest userCreate){
-        return userService.saveNewUser(userCreate);
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateRequest userCreate){
+        return ResponseEntity.ok(userService.saveNewUser(userCreate));
     }
 
     @GetMapping("/{userId}")
-    public UserResponse getOneUser(@PathVariable Long userId){
-        return userService.getUserByIdWithResponse(userId);
+    public ResponseEntity<UserResponse> getOneUser(@PathVariable Long userId){
+        return ResponseEntity.ok(userService.getUserByIdWithResponse(userId));
     }
 
     @PutMapping("/{userId}")
-    public UserResponse updateOneUser(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdate){
-        return userService.updateUserById(userId,userUpdate);
+    public ResponseEntity<UserResponse> updateOneUser(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdate){
+        return ResponseEntity.ok(userService.updateUserById(userId,userUpdate));
     }
 
     @DeleteMapping("/{userId}")

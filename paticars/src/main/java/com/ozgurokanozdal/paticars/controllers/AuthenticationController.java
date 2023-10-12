@@ -1,5 +1,6 @@
 package com.ozgurokanozdal.paticars.controllers;
 
+import com.ozgurokanozdal.paticars.requests.RefreshRequest;
 import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
 import com.ozgurokanozdal.paticars.requests.UserJwtRequest;
 import com.ozgurokanozdal.paticars.responses.UserJwtResponse;
@@ -18,7 +19,7 @@ public class AuthenticationController {
 
     @PostMapping("/save")
     public ResponseEntity<UserJwtResponse> save(@RequestBody UserCreateRequest userCreateRequest){
-        return ResponseEntity.ok(authenticationService.save(userCreateRequest));
+        return authenticationService.save(userCreateRequest);
     }
 
     @PostMapping("/login")
@@ -26,8 +27,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.login(userJwtRequest));
     }
 
-    @PostMapping("/hello")
-    public ResponseEntity<String> hello(@RequestBody String str){
-        return ResponseEntity.ok(str);
+    @PostMapping("/refresh")
+    public ResponseEntity<UserJwtResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
+        return  authenticationService.refresh(refreshRequest);
+
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello(){
+        return ResponseEntity.ok("Hello");
     }
 }

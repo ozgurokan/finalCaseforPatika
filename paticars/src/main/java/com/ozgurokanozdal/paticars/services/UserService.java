@@ -46,24 +46,15 @@ public class UserService {
          // bu method user controllerda kullanılacak
          Optional<User> user = userRepository.findById(userId);
          if(user.isPresent()){
-//             User entity = user.get();
-//             UserResponse userResponse = new UserResponse();
-//
-//             userResponse.setId(entity.getId());
-//             userResponse.setName(entity.getName());
-//             userResponse.setSurname(entity.getSurname());
-//             userResponse.setUsername(entity.getUsername());
-
              return modelMapper.map(user,UserResponse.class);
          }else{
-             // şimdilik
+
              return null;
          }
 
     }
 
     public User getUserById(Long userId) {
-         // bu method car service de kullanılacak o yüzden DTO kullanmadım
          return userRepository.findById(userId).orElse(null);
     }
 

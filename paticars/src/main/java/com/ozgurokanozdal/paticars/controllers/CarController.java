@@ -5,6 +5,7 @@ import com.ozgurokanozdal.paticars.requests.CarCreateRequest;
 import com.ozgurokanozdal.paticars.requests.CarUpdateRequest;
 import com.ozgurokanozdal.paticars.responses.CarResponse;
 import com.ozgurokanozdal.paticars.services.CarService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,24 +22,24 @@ public class CarController {
     }
 
     @GetMapping
-    public List<CarResponse> getAllCars(@RequestParam Optional<Long> userId){
-        return carService.getAllCars(userId);
+    public ResponseEntity<List<CarResponse>> getAllCars(@RequestParam Optional<Long> userId){
+        return ResponseEntity.ok(carService.getAllCars(userId));
     }
 
     @PostMapping
-    public CarResponse saveNewCar(@RequestBody CarCreateRequest newCarRequest){
+    public ResponseEntity<CarResponse> saveNewCar(@RequestBody CarCreateRequest newCarRequest){
 
-        return carService.saveNewCar(newCarRequest);
+        return ResponseEntity.ok(carService.saveNewCar(newCarRequest));
     }
 
     @GetMapping("/{carId}")
-    public CarResponse getOneCar(@PathVariable Long carId){
-        return carService.getCarById(carId);
+    public ResponseEntity<CarResponse> getOneCar(@PathVariable Long carId){
+        return ResponseEntity.ok(carService.getCarById(carId));
     }
 
     @PutMapping("/{carId}")
-    public CarResponse updateOneCar(@PathVariable Long carId, @RequestBody CarUpdateRequest carUpdate){
-        return carService.updateCarById(carId,carUpdate);
+    public ResponseEntity<CarResponse> updateOneCar(@PathVariable Long carId, @RequestBody CarUpdateRequest carUpdate){
+        return ResponseEntity.ok(carService.updateCarById(carId,carUpdate));
     }
 
     @DeleteMapping("/{carId}")
