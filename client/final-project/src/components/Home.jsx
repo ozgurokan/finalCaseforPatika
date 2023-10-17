@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {Flex, Box, Heading} from "@chakra-ui/react";
 
 function Home() {
   return (
-    <div className="home">
-      <div className='home-welcome'>Welcome to Home Page</div>
-    </div>
-  )
+      <Flex width={"full"} height={"90vh"} justifyContent="center" alignItems={"center"}>
+        <Box><Heading>Welcome to Home Page</Heading></Box>
+      </Flex>
+    )
 }
 
 export default Home
