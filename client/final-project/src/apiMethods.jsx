@@ -68,3 +68,20 @@ export const newCar = async(values) => {
     return response;
 }
 
+export const fetchOneCar = async(carId) => {
+    const response = await axios.get(BASE_URL+`cars/${carId}`,{
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("accessToken")}`
+            }
+    })
+    return response;
+}
+
+export const updateCar = async(cardId ,request) => {
+    const response = await axios.put(BASE_URL+`cars/${cardId}`,request,{
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("accessToken")}`
+            }
+    })
+    return response.data;
+}

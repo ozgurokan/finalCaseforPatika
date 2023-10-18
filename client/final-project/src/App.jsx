@@ -8,6 +8,7 @@ import Profile from './components/Profile';
 import Settings from "./components/Settings";
 import Cars from './components/Cars';
 import NewCar from './components/NewCar';
+import UpdateCar from './components/UpdateCar';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile/settings" element={<Settings/>} ></Route>
           <Route path='/profile/cars' element={<Cars/>}></Route>
           <Route path='/profile/new-car' element={<NewCar/>}></Route>
+          <Route path='/profile/update-car/:id/:userIdParam' element={<UpdateCar/>}></Route>
 
         </Route>
 

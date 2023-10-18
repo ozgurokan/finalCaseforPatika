@@ -42,7 +42,7 @@ export default function TableComp({head, body,username}) {
                                 <Td>{d.model.toUpperCase()}</Td>
                                 <Td>{d.car_plate.toUpperCase()}</Td>
                                 <Td>{d.year}</Td>
-                                <Td><><Button onClick={() => {handleDelete(d.id)}} colorScheme={"red"}>Delete</Button> <Button colorScheme={"blue"}>Edit</Button></></Td>
+                                <Td><><Button onClick={() => {handleDelete(d.id)}} colorScheme={"red"}>Delete</Button> <Button colorScheme={"blue"} onClick={() => {navigate(`/profile/update-car/${d.id}/${d.user_id}`)}}>Edit</Button></></Td>
                             </Tr>
                         )
                     })}
