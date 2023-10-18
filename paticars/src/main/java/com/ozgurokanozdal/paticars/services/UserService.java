@@ -6,6 +6,9 @@ import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
 import com.ozgurokanozdal.paticars.requests.UserUpdateRequest;
 import com.ozgurokanozdal.paticars.responses.UserResponse;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,28 +19,25 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-     private UserRepository userRepository;
+     private final UserRepository userRepository;
      private final ModelMapper modelMapper;
+     private final PasswordEncoder passwordEncoder;
 
-     public UserService(UserRepository userRepository,ModelMapper modelMapper){
+     public UserService(UserRepository userRepository,ModelMapper modelMapper,PasswordEncoder passwordEncoder){
          this.userRepository = userRepository;
          this.modelMapper = modelMapper;
+         this.passwordEncoder = passwordEncoder;
      }
 
 
     public List<UserResponse> getAllUsers() {
          List<User> users =  userRepository.findAll();
-         List<UserResponse> userResponses = users.stream().map(user -> modelMapper.map(user,UserResponse.class)).collect(Collectors.toList());
-         return userResponses;
+        return users.stream().map(user -> modelMapper.map(user,UserResponse.class)).collect(Collectors.toList());
     }
 
     public UserResponse saveNewUser(UserCreateRequest userCreate) {
          User user = modelMapper.map(userCreate,User.class);
-//         user.setName(userCreate.getName());
-//         user.setSurname(userCreate.getSurname());
-//         user.setUsername(userCreate.getUsername());
-//         user.setPassword(userCreate.getPassword());
-//         user.setEmail(userCreate.getEmail());
+
          userRepository.save(user);
          return modelMapper.map(user,UserResponse.class);
     }
@@ -58,14 +58,18 @@ public class UserService {
          return userRepository.findById(userId).orElse(null);
     }
 
-    public UserResponse updateUserById(Long userId, UserUpdateRequest userUpdate) {
+    public ResponseEntity<UserResponse> updateUserById(Long userId, UserUpdateRequest userUpdate) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()){
             User oldUser = user.get();
-            oldUser.setPassword(userUpdate.getPassword());
-            userRepository.save(oldUser);
-;
-            return modelMapper.map(oldUser,UserResponse.class);
+            if(passwordEncoder.matches(userUpdate.getCurrentPassword(),oldUser.getPassword())){
+                oldUser.setPassword(passwordEncoder.encode(userUpdate.getNewPassword()));
+                userRepository.save(oldUser);
+                return ResponseEntity.ok(modelMapper.map(oldUser,UserResponse.class));
+            }else{
+                UserResponse response = modelMapper.map(oldUser,UserResponse.class);
+                return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
+            }
         }else{
             //add custom exception
             return null;

@@ -13,6 +13,7 @@ public class UserJwtResponse {
 
     private String message;
     private Long userId;
+    private String username;
     private String accessToken;
     private String refreshToken;
 

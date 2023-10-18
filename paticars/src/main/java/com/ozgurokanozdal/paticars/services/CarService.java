@@ -26,17 +26,25 @@ public class CarService {
         this.modelMapper = modelMapper;
     }
 
-    public List<CarResponse> getAllCars(Optional<Long> userId){
+    public List<CarResponse> getAllCars(Optional<Long> userId, Optional<String> brand,Optional<String> model){
 
-        if(userId.isPresent()){
-            List<Car> cars  = carRepository.findAllByUserId(userId.get());
-            List<CarResponse> carResponses = cars.stream().map(car -> new CarResponse(car)).collect(Collectors.toList());
-            return carResponses;
-        }else{
-            List<Car> cars  = carRepository.findAll();
-            List<CarResponse> carResponses = cars.stream().map(car -> new CarResponse(car)).collect(Collectors.toList());
-            return carResponses;
+        if(userId.isPresent()) {
+           if(model.isPresent() && brand.isPresent()){
+               List<Car> cars = carRepository.findAllByUserIdAndBrandAndModel(userId.get(),brand.get(), model.get());
+               return cars.stream().map(CarResponse::new).collect(Collectors.toList());
+           } else if (model.isPresent()) {
+               List<Car> cars = carRepository.findAllByUserIdAndBrand(userId.get(), model.get());
+               return cars.stream().map(CarResponse::new).collect(Collectors.toList());
+           }else if(brand.isPresent()){
+               List<Car> cars = carRepository.findAllByUserIdAndBrand(userId.get(), brand.get());
+               return cars.stream().map(CarResponse::new).collect(Collectors.toList());
+           }
+           List<Car> cars = carRepository.findAllByUserId(userId.get());
+           return cars.stream().map(CarResponse::new).collect(Collectors.toList());
         }
+
+        List<Car> cars = carRepository.findAll();
+        return  cars.stream().map(CarResponse::new).collect(Collectors.toList());
 
 
     }
@@ -57,7 +65,10 @@ public class CarService {
         Optional<Car> car = carRepository.findById(carId);
 
         if(car.isPresent()){
-            return modelMapper.map(car, CarResponse.class);
+            CarResponse response = modelMapper.map(car, CarResponse.class);
+            response.setUser_id(car.get().getUser().getId());
+            return response;
+
         }
         return null;
     }

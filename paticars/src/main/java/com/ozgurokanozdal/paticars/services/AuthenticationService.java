@@ -8,14 +8,14 @@ import com.ozgurokanozdal.paticars.requests.RefreshRequest;
 import com.ozgurokanozdal.paticars.requests.UserCreateRequest;
 import com.ozgurokanozdal.paticars.requests.UserJwtRequest;
 import com.ozgurokanozdal.paticars.responses.UserJwtResponse;
-import com.ozgurokanozdal.paticars.responses.UserResponse;
+
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,18 +50,18 @@ public class AuthenticationService {
         String accessToken = jwtService.generateToken(user);
         String refreshToken = refreshTokenService.createRefreshToken(user);
 
-        UserJwtResponse response = UserJwtResponse.builder().message("Registration Successful").userId(user.getId()).accessToken(accessToken).refreshToken(refreshToken).build();
+        UserJwtResponse response = UserJwtResponse.builder().username(user.getUsername()).message("Registration Successful").userId(user.getId()).accessToken(accessToken).refreshToken(refreshToken).build();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 
     public UserJwtResponse login(UserJwtRequest userJwtRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userJwtRequest.getUsername(),userJwtRequest.getPassword()));
-        User user = userRepository.findByUsername(userJwtRequest.getUsername()).orElseThrow();
+        var user = userRepository.findByUsername(userJwtRequest.getUsername()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
 
         String token = jwtService.generateToken(user);
-        return UserJwtResponse.builder().accessToken(token).refreshToken(refreshTokenService.createRefreshToken(user)).userId(user.getId()).build();
+        return UserJwtResponse.builder().username(user.getUsername()).accessToken(token).refreshToken(refreshTokenService.createRefreshToken(user)).userId(user.getId()).message("successfully logged in").build();
     }
 
 
@@ -72,7 +72,7 @@ public class AuthenticationService {
 
             User user = token.getUser();
             String jwtToken = jwtService.generateToken(user);
-            UserJwtResponse response = UserJwtResponse.builder().message("token successfully refreshed.").accessToken("Bearer " + jwtToken).userId(user.getId()).build();
+            UserJwtResponse response = UserJwtResponse.builder().username(user.getUsername()).message("token successfully refreshed.").accessToken(jwtToken).userId(user.getId()).build();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             UserJwtResponse response = UserJwtResponse.builder().message("token is not valid!").build();

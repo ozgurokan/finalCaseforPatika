@@ -1,14 +1,11 @@
 package com.ozgurokanozdal.paticars.requests;
 
+import lombok.Data;
+
+@Data
 public class UserUpdateRequest {
 
-    private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String newPassword;
+    private String currentPassword;
 }
+

@@ -21,9 +21,9 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<CarResponse>> getAllCars(@RequestParam Optional<Long> userId){
-        return ResponseEntity.ok(carService.getAllCars(userId));
+    @GetMapping()
+    public ResponseEntity<List<CarResponse>> getAllCars(@RequestParam Optional<Long> userId, @RequestParam Optional<String> brand,@RequestParam Optional<String> model){
+        return ResponseEntity.ok(carService.getAllCars(userId,brand,model));
     }
 
     @PostMapping
