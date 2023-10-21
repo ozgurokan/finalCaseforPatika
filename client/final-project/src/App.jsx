@@ -9,6 +9,7 @@ import Settings from "./components/Settings";
 import Cars from './components/Cars';
 import NewCar from './components/NewCar';
 import UpdateCar from './components/UpdateCar';
+import PageNotFound from './components/PageNotFound';
 
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
 
         </Route>
 
-
+        <Route path='*' element={<PageNotFound/>}></Route>
       </Routes>
     </div>
   )
